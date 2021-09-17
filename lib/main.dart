@@ -1,4 +1,7 @@
+// import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:meals_app/pages/meals_page.dart';
 import './pages/category_meals_page.dart';
 
 import './pages/categories_page.dart';
@@ -12,7 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: CategoriesPage(),
-      routes: {CategoryMealsPage.routeName: (ctx) => CategoryMealsPage()},
+      routes: {
+        CategoryMealsPage.routeName: (ctx) => CategoryMealsPage(),
+        MealsPage.routeName: (ctx) => MealsPage(),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (ctx) => CategoriesPage());
+      },
       title: 'Meals App',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
