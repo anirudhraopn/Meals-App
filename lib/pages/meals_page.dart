@@ -1,9 +1,33 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/category.dart';
 
-class MealsPage extends StatelessWidget {
+class MealsPage extends StatefulWidget {
   // const MealsPage({ Key? key }) : super(key: key);
   static const routeName = '/meal-page';
+  final Function favourite;
+  final Function isFavourite;
+
+  MealsPage(this.favourite, this.isFavourite);
+
+  @override
+  _MealsPageState createState() => _MealsPageState();
+}
+
+class _MealsPageState extends State<MealsPage> {
+  var connected = false;
+
+  Future<void> checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        connected = true;
+      }
+    } on SocketException catch (_) {
+      connected = false;
+    }
+  }
 
   Widget buildHeading(
     BuildContext context,
@@ -39,6 +63,14 @@ class MealsPage extends StatelessWidget {
     final mealId = ModalRoute.of(context).settings.arguments;
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: widget.isFavourite(mealId)
+              ? Icon(Icons.star)
+              : Icon(Icons.star_border),
+          onPressed: () {
+            widget.favourite(mealId);
+          },
+        ),
         appBar: AppBar(
           title: Text(selectedMeal.title),
         ),
@@ -48,10 +80,14 @@ class MealsPage extends StatelessWidget {
               Container(
                 height: 300,
                 width: double.infinity,
-                child: Image.network(
-                  selectedMeal.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: connected
+                    ? Image.network(
+                        selectedMeal.imageUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                        child: Text('Unable to load image'),
+                      ),
               ),
               buildHeading(context, 'Ingredients'),
               buildContainer(

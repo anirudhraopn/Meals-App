@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:meals_app/pages/meals_page.dart';
 import '../models/meals.dart';
 
-class MealItem extends StatelessWidget {
+class MealItem extends StatefulWidget {
   //const MealItem({ Key? key }) : super(key: key);
-
   final String imageUrl;
   final String id;
   final String title;
@@ -20,12 +21,30 @@ class MealItem extends StatelessWidget {
     @required this.title,
   });
 
+  @override
+  _MealItemState createState() => _MealItemState();
+}
+
+class _MealItemState extends State<MealItem> {
+  var connected = false;
+
+  Future<void> checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        connected = true;
+      }
+    } on SocketException catch (_) {
+      connected = false;
+    }
+  }
+
   void selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(MealsPage.routeName, arguments: id);
+    Navigator.of(context).pushNamed(MealsPage.routeName, arguments: widget.id);
   }
 
   String get complexityText {
-    switch (complexity) {
+    switch (widget.complexity) {
       case Complexity.Simple:
         return 'Simple';
         break;
@@ -41,7 +60,7 @@ class MealItem extends StatelessWidget {
   }
 
   String get affordabilityText {
-    switch (affordability) {
+    switch (widget.affordability) {
       case Affordability.Affordable:
         return 'Affordable';
         break;
@@ -76,12 +95,19 @@ class MealItem extends StatelessWidget {
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
-                  child: Image.network(
-                    imageUrl,
-                    height: 250,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
+                  child: connected
+                      ? Image.network(
+                          widget.imageUrl,
+                          height: 250,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        )
+                      : Container(
+                          height: 250,
+                          child: Center(
+                            child: Text('Unable to load image'),
+                          ),
+                        ),
                 ),
                 Positioned(
                   bottom: 20,
@@ -91,7 +117,7 @@ class MealItem extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     color: Colors.black54,
                     child: Text(
-                      title,
+                      widget.title,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,
@@ -114,7 +140,7 @@ class MealItem extends StatelessWidget {
                       SizedBox(
                         width: 6,
                       ),
-                      Text('$duration min'),
+                      Text('${widget.duration} min'),
                     ],
                   ),
                   Row(
