@@ -8,6 +8,7 @@ class CategoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double mediaQuery = MediaQuery.of(context).size.width;
     return Scaffold(
       //backgroundColor: ,
       // appBar: AppBar(
@@ -27,7 +28,7 @@ class CategoriesPage extends StatelessWidget {
               )
               .toList(),
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
+            maxCrossAxisExtent: mediaQuery < 200 ? (mediaQuery / 2) : 200,
             childAspectRatio: 3 / 2,
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,

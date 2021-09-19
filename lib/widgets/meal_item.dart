@@ -26,7 +26,7 @@ class MealItem extends StatefulWidget {
 }
 
 class _MealItemState extends State<MealItem> {
-  var connected = false;
+  var connected = true;
 
   Future<void> checkConnection() async {
     try {
@@ -77,6 +77,9 @@ class _MealItemState extends State<MealItem> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return InkWell(
       onTap: () {
         selectMeal(context);
@@ -96,14 +99,22 @@ class _MealItemState extends State<MealItem> {
                     topRight: Radius.circular(15),
                   ),
                   child: connected
-                      ? Image.network(
-                          widget.imageUrl,
-                          height: 250,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        )
+                      ? isLandscape
+                          ? Image.network(
+                              widget.imageUrl,
+                              height: MediaQuery.of(context).size.height * 0.6,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            )
+                          : Image.network(
+                              widget.imageUrl,
+                              height:
+                                  MediaQuery.of(context).size.height * 1 / 3,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            )
                       : Container(
-                          height: 250,
+                          height: MediaQuery.of(context).size.height * 0.6,
                           child: Center(
                             child: Text('Unable to load image'),
                           ),

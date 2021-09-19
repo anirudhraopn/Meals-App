@@ -34,7 +34,7 @@ class MainDrawer extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             alignment: Alignment.centerLeft,
             child: Text(
-              'Coming Soon!!',
+              'Meals App',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w900,
@@ -43,7 +43,7 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           buildListTile(
-            'Meals',
+            'Categories',
             Icons.restaurant,
             () {
               Navigator.of(context).pushReplacementNamed('/');
@@ -51,7 +51,7 @@ class MainDrawer extends StatelessWidget {
           ),
           buildListTile(
             'Filters',
-            Icons.settings,
+            Icons.filter_alt,
             () {
               Navigator.of(context).pushReplacementNamed(FiltersPage.routeName);
             },

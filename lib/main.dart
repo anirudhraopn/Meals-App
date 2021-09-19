@@ -110,6 +110,7 @@ class _MyAppState extends State<MyApp> {
               body2: TextStyle(
                 color: Colors.black87,
               ),
+              // ignore: deprecated_member_use
               title: TextStyle(
                 fontSize: 20,
                 fontFamily: 'RobotoCondensed',
@@ -121,26 +122,26 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class MyHome extends StatefulWidget {
-  //const MyHome({Key? key}) : super(key: key);
+// class MyHome extends StatefulWidget {
+//   //const MyHome({Key? key}) : super(key: key);
 
-  @override
-  _MyHomeState createState() => _MyHomeState();
-}
+//   @override
+//   _MyHomeState createState() => _MyHomeState();
+// }
 
-class _MyHomeState extends State<MyHome> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Meals App',
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text('Coming Soon!!'),
-      ),
-    );
-  }
-}
+// class _MyHomeState extends State<MyHome> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(
+//           'Meals App',
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: Center(
+//         child: Text('Coming Soon!!'),
+//       ),
+//     );
+//   }
+// }

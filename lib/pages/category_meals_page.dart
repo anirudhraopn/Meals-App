@@ -10,7 +10,7 @@ import '../dummy_data.dart';
 class CategoryMealsPage extends StatelessWidget {
   //const CategoryMealsPage({Key? key}) : super(key: key);
 
-  List<Meals> availableMeals;
+  final List<Meals> availableMeals;
 
   CategoryMealsPage(this.availableMeals);
 
@@ -22,6 +22,8 @@ class CategoryMealsPage extends StatelessWidget {
   static const routeName = '/category_meals';
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     final String categoryId = routeArgs['id'];
@@ -33,18 +35,41 @@ class CategoryMealsPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(categoryTitle),
         ),
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            return MealItem(
-              id: categoryMeals[index].id,
-              affordability: categoryMeals[index].affordability,
-              complexity: categoryMeals[index].complexity,
-              duration: categoryMeals[index].duration,
-              imageUrl: categoryMeals[index].imageUrl,
-              title: categoryMeals[index].title,
-            );
-          },
-          itemCount: categoryMeals.length,
-        ));
+        body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: isLandscape
+                ? GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 300,
+                      childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
+                    itemBuilder: (context, index) {
+                      return MealItem(
+                        id: categoryMeals[index].id,
+                        affordability: categoryMeals[index].affordability,
+                        complexity: categoryMeals[index].complexity,
+                        duration: categoryMeals[index].duration,
+                        imageUrl: categoryMeals[index].imageUrl,
+                        title: categoryMeals[index].title,
+                      );
+                    },
+                    itemCount: categoryMeals.length,
+                  )
+                : ListView.builder(
+                    itemBuilder: (context, index) {
+                      return MealItem(
+                        id: categoryMeals[index].id,
+                        affordability: categoryMeals[index].affordability,
+                        complexity: categoryMeals[index].complexity,
+                        duration: categoryMeals[index].duration,
+                        imageUrl: categoryMeals[index].imageUrl,
+                        title: categoryMeals[index].title,
+                      );
+                    },
+                    itemCount: categoryMeals.length,
+                  )));
   }
 }
