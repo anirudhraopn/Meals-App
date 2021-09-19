@@ -113,9 +113,12 @@ class _MealItemState extends State<MealItem> {
                   bottom: 20,
                   right: 10,
                   child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     width: 300,
                     padding: const EdgeInsets.all(10),
-                    color: Colors.black54,
                     child: Text(
                       widget.title,
                       style: TextStyle(
